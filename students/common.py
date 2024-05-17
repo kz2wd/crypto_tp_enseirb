@@ -81,7 +81,23 @@ def expo_modulaire_fast(e, b, n):
 
 
 def crible_eras(n):
-    return []
+    """
+
+    Time complexity : O(n * sqrt(n))
+    Space complexity : O(n) (current version) could be improved to O(sqrt(n)) by building the list little by little.
+
+    """
+    if n < 2:
+        return []
+    crible = list(range(2, n + 1))
+    cur_min = crible[0]
+    i = 1
+    while cur_min * cur_min < n:
+        crible = list(filter(lambda x: x % cur_min != 0 or x == cur_min, crible))
+        cur_min = crible[i]
+        i += 1
+
+    return crible
 
 ####################
 # Q6
