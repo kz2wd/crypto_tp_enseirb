@@ -20,7 +20,12 @@ def pgcd(a, b):
 
 
 def euclide_ext(a, b):
-    return 0
+    if 0 == a:
+        return b, 0, 1
+    gcd, _u, v = euclide_ext(b % a, a)
+    u = v - (b // a) * _u
+    v = _u
+    return gcd, u, v
 
 ####################
 # Q2
@@ -30,7 +35,10 @@ def euclide_ext(a, b):
 
 
 def inverse_modulaire(N, a):
-    return 0
+    gcd, u, _ = euclide_ext(a, N)
+    if 1 != gcd:
+        return Exception
+    return u % N
 
 ####################
 # Q3
@@ -92,7 +100,23 @@ def expo_modulaire_fast(e, b, n):
 
 
 def crible_eras(n):
-    return []
+    """
+
+    Time complexity : O(n * sqrt(n))
+    Space complexity : O(n) (current version) could be improved to O(sqrt(n)) by building the list little by little.
+
+    """
+    if n < 2:
+        return []
+    crible = list(range(2, n + 1))
+    cur_min = crible[0]
+    i = 1
+    while cur_min * cur_min < n:
+        crible = list(filter(lambda x: x % cur_min != 0 or x == cur_min, crible))
+        cur_min = crible[i]
+        i += 1
+
+    return crible
 
 ####################
 # Q6
