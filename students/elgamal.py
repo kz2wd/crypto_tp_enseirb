@@ -2,6 +2,7 @@ import random
 import sys
 from math import *
 from common import *
+from sympy import *
 
 ####################
 # Q14
@@ -12,8 +13,8 @@ from common import *
 # p premier sur n bits.
 
 
-def gen_elgamal_pg(n):
-    p=gen_prime(n)
+def gen_elgamal_pg(n,use_is_prime=True):
+    p=gen_prime(n,use_is_prime)
     g=3
     return p,g
 
@@ -110,7 +111,15 @@ def dec_secret(c, secret, p):
 # sk cle secrete utilise pour signer message m
 # m sous forme de texte
 def elgamalsignature(g, p, sk, m):
-    return 0
+
+    k=gen_prime(p,True)
+    r= expo_modulaire_fast(k,g,p)
+    l=inverse_modulaire(p-1,k)
+    print(l)
+    s=(str_to_int(m)-sk*r)
+    s=s*l
+    s=s%(p-1)
+    return r,s
 
 # r,s signature
 # pk cle publique utilise pour signer message m
@@ -120,4 +129,8 @@ def elgamalsignature(g, p, sk, m):
 
 
 def elgamalverification(g, p, r, s, m, pk):
-    return 0
+    v1=expo_modulaire_fast(r,pk,p)*expo_modulaire_fast(s,r,p)
+    v1=v1%p
+    v2=expo_modulaire_fast(str_to_int(m),g,p)
+    #print(v1,v2)
+    return v1==v2
