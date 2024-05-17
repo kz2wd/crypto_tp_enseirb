@@ -49,7 +49,17 @@ def inverse_modulaire(N, a):
 
 
 def expo_modulaire(e, b, n):
-    return 0
+    if (e==0):
+        return 1
+    ret,xcpt,mcpt=1,0,0
+    for i in range (e):
+        ret*=b
+        xcpt+=1
+        ret=ret%n
+        mcpt+=1
+    print("le nombre de multiplication est",xcpt)
+    print("le nombre de modulo est",mcpt)
+    return ret
 
 ####################
 # Q4
@@ -69,8 +79,23 @@ def expo_modulaire_fast(e, b, n):
     # utile pour iterer sur chaque element de e
     # for x in range(len(bin_e)):
     #   int(bin_e[x])
-
-    return 0
+    if (e == 0):
+        return 1
+    b_or=b
+    xcpt,mcpt=0,0
+    bin_e = bin(e)[2:]
+    for i in range(len(bin_e)):
+        if (int(bin_e[i]) == 0):
+            b=expo_modulaire(2,b,n)
+        else:
+            b=b*b_or
+            b=b%n
+            xcpt+=1
+            mcpt+=1
+            
+    print("le nombre de multiplication est",xcpt)
+    print("le nombre de multiplication est",mcpt)
+    return b
 
 ####################
 # Q5
@@ -112,6 +137,11 @@ def crible_eras(n):
 def test_fermat(n, t):
     # random number generator between a and b
     # x = random.randint(a,b)
+    for i in range(t):
+        x=random.randint(1,n)
+        if (expo_modulaire_fast(n-1, x, n) != 1):
+            print(x,expo_modulaire_fast(n-1, x, n))
+            return False
     return True
 
 ####################
@@ -125,7 +155,13 @@ def test_fermat(n, t):
 
 
 def find_ru(n):
-    return 0
+    #n-=1
+    r,u=0,0
+    while (n%2 == 0):
+        r+=1
+        n=n//2
+    u=n
+    return r,u
 
 ####################
 # Q8
@@ -139,14 +175,26 @@ def find_ru(n):
 
 def temoin_rabin(a, n):
     # utilisez expo_modulaire_fast !
-    return 0
+    r,u=find_ru(n)
+    if (expo_modulaire_fast(u,a,n) == 1):
+        return False
+    for i in range(r):
+        if (expo_modulaire_fast(u*2**i,a,n) == n-1):
+            return False
+    return True
 
 
 # n entier a tester, t nombre de tests
 # retourne True , si n est premier
 # retourne False , avec proba > 1-(1/4)**t, si n est compose
 def test_rabin(n, t):
-    return 0
+    if (n%2 == 0):
+        return False
+    for i in range(t):
+        a=random.randint(1,n-1)
+        if (pgcd(n,a) != 1 or temoin_rabin(a,n) == True):
+            return False
+    return True
 
 # prime generator
 # output: n range for prime number
@@ -156,7 +204,10 @@ def test_rabin(n, t):
 
 
 def gen_prime(n):
-    return 0
+    p = random.randint(pow(2,n-1),pow(2,n)-1)
+    while (test_rabin(p, 10000) == False):
+        p = random.randint(pow(2,n-1),pow(2,n)-1)
+    return p
 
 ####################
 # Helper functions for rsa/elgamal
