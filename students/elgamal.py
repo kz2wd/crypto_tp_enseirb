@@ -13,7 +13,7 @@ from common import *
 
 
 def gen_elgamal_pg(n):
-    return 0
+    return 1
 
 ####################
 # Q15
