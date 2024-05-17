@@ -12,7 +12,7 @@ if __name__ == "__main__":
     print(expo_modulaire(176,511, 13))
     print("ok si c'est 5")
     print(expo_modulaire_fast(176,511,13))
-    p=gen_prime(40)
+    p=gen_prime(20)
     print(p)
     print(test_fermat(69,100))
     print(test_rabin(69,100))

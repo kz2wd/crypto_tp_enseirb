@@ -1,6 +1,6 @@
 import random
 import sys
-from math import sqrt
+from math import *
 from common import *
 
 ####################
@@ -79,9 +79,11 @@ def caluclate_secret_bob(ke, sk_b, p):
 def enc_secret(m, secret, p):
     # indice transformez le message (et le secret) en binaire:
     # bin_m = bin(str_to_int(m))[2:]
-    bin_m = bin(str_to_int(m))[2:]
-    
-    return 0
+    bin_m = str_to_int(m)
+    print(bin_m)
+    bin_m=bin_m*secret
+    bin_m=bin_m%p
+    return int_to_str(bin_m)
 
 # dechiffrement du message c avec le secret
 # output: chaine de charactere m
@@ -89,7 +91,12 @@ def enc_secret(m, secret, p):
 
 
 def dec_secret(c, secret, p):
-    return 0
+    bin_m = str_to_int(c)
+    secr=inverse_modulaire(p,secret)
+    bin_m=bin_m*secr
+    bin_m=bin_m%p
+    print(bin_m)
+    return int_to_str(bin_m)
 
 # [une suggestion]
 # vous pouvez ajouter 2 fonctions:
