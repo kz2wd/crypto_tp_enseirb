@@ -148,6 +148,7 @@ def test_fermat(n, t):
 
 
 def find_ru(n):
+    n-=1
     r,u=0,0
     while (n%2 == 0):
         r+=1
@@ -180,7 +181,13 @@ def temoin_rabin(a, n):
 # retourne True , si n est premier
 # retourne False , avec proba > 1-(1/4)**t, si n est compose
 def test_rabin(n, t):
-    return 0
+    if (n%2 == 0):
+        return False
+    for i in range(t):
+        a=random.randint(1,n-1)
+        if (pgcd(n,a) != 1 or temoin_rabin(a,n) == True):
+            return False
+    return True
 
 # prime generator
 # output: n range for prime number
@@ -190,7 +197,10 @@ def test_rabin(n, t):
 
 
 def gen_prime(n):
-    return 0
+    p = random.randint(pow(2,n-1),pow(2,n)-1)
+    while (test_rabin(p, 20) == False):
+        p = random.randint(pow(2,n-1),pow(2,n)-1)
+    return p
 
 ####################
 # Helper functions for rsa/elgamal
