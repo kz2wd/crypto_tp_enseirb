@@ -35,7 +35,10 @@ def euclide_ext(a, b):
 
 
 def inverse_modulaire(N, a):
-    return 0
+    gcd, u, _ = euclide_ext(a, N)
+    if 1 != gcd:
+        return Exception
+    return u % N
 
 ####################
 # Q3
