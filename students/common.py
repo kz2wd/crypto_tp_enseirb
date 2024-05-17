@@ -15,6 +15,7 @@ def pgcd(a, b):
         a, b = b, a % b
     return a
 
+
 # algo euclide etendu
 # retourne d,u,v avec pgcd(a,b)=d=ua+vb
 
@@ -26,6 +27,7 @@ def euclide_ext(a, b):
     u = v - (b // a) * _u
     v = _u
     return gcd, u, v
+
 
 ####################
 # Q2
@@ -40,6 +42,7 @@ def inverse_modulaire(N, a):
         return Exception
     return u % N
 
+
 ####################
 # Q3
 ####################
@@ -49,17 +52,14 @@ def inverse_modulaire(N, a):
 
 
 def expo_modulaire(e, b, n):
-    if (e==0):
+    if e == 0:
         return 1
-    ret,xcpt,mcpt=1,0,0
-    for i in range (e):
-        ret*=b
-        xcpt+=1
-        ret=ret%n
-        mcpt+=1
-    print("le nombre de multiplication est",xcpt)
-    print("le nombre de modulo est",mcpt)
+    ret = 1
+    for i in range(e):
+        ret *= b
+        ret = ret % n
     return ret
+
 
 ####################
 # Q4
@@ -79,23 +79,19 @@ def expo_modulaire_fast(e, b, n):
     # utile pour iterer sur chaque element de e
     # for x in range(len(bin_e)):
     #   int(bin_e[x])
-    if (e == 0):
+    if e == 0:
         return 1
-    b_or=b
-    xcpt,mcpt=0,0
-    bin_e = bin(e)[2:]
+    base = b % n
+    b = 1
+    bin_e = bin(e)[2:][::-1]
     for i in range(len(bin_e)):
-        if (int(bin_e[i]) == 0):
-            b=expo_modulaire(2,b,n)
-        else:
-            b=b*b_or
-            b=b%n
-            xcpt+=1
-            mcpt+=1
-            
-    print("le nombre de multiplication est",xcpt)
-    print("le nombre de multiplication est",mcpt)
+        if int(bin_e[i]) == 1:
+            b = (b * base) % n
+        base = (base * base) % n
+
     return b
+
+
 
 ####################
 # Q5
@@ -124,6 +120,7 @@ def crible_eras(n):
 
     return crible
 
+
 ####################
 # Q6
 ####################
@@ -138,11 +135,12 @@ def test_fermat(n, t):
     # random number generator between a and b
     # x = random.randint(a,b)
     for i in range(t):
-        x=random.randint(1,n)
-        if (expo_modulaire_fast(n-1, x, n) != 1):
-            print(x,expo_modulaire_fast(n-1, x, n))
+        x = random.randint(1, n)
+        if (expo_modulaire_fast(n - 1, x, n) != 1):
+            print(x, expo_modulaire_fast(n - 1, x, n))
             return False
     return True
+
 
 ####################
 # Q7
@@ -155,13 +153,14 @@ def test_fermat(n, t):
 
 
 def find_ru(n):
-    #n-=1
-    r,u=0,0
-    while (n%2 == 0):
-        r+=1
-        n=n//2
-    u=n
-    return r,u
+    # n-=1
+    r, u = 0, 0
+    while (n % 2 == 0):
+        r += 1
+        n = n // 2
+    u = n
+    return r, u
+
 
 ####################
 # Q8
@@ -175,11 +174,11 @@ def find_ru(n):
 
 def temoin_rabin(a, n):
     # utilisez expo_modulaire_fast !
-    r,u=find_ru(n)
-    if (expo_modulaire_fast(u,a,n) == 1):
+    r, u = find_ru(n)
+    if (expo_modulaire_fast(u, a, n) == 1):
         return False
     for i in range(r):
-        if (expo_modulaire_fast(u*2**i,a,n) == n-1):
+        if (expo_modulaire_fast(u * 2 ** i, a, n) == n - 1):
             return False
     return True
 
@@ -188,13 +187,14 @@ def temoin_rabin(a, n):
 # retourne True , si n est premier
 # retourne False , avec proba > 1-(1/4)**t, si n est compose
 def test_rabin(n, t):
-    if (n%2 == 0):
+    if (n % 2 == 0):
         return False
     for i in range(t):
-        a=random.randint(1,n-1)
-        if (pgcd(n,a) != 1 or temoin_rabin(a,n) == True):
+        a = random.randint(1, n - 1)
+        if (pgcd(n, a) != 1 or temoin_rabin(a, n) == True):
             return False
     return True
+
 
 # prime generator
 # output: n range for prime number
@@ -204,10 +204,11 @@ def test_rabin(n, t):
 
 
 def gen_prime(n):
-    p = random.randint(pow(2,n-1),pow(2,n)-1)
+    p = random.randint(pow(2, n - 1), pow(2, n) - 1)
     while (test_rabin(p, 10000) == False):
-        p = random.randint(pow(2,n-1),pow(2,n)-1)
+        p = random.randint(pow(2, n - 1), pow(2, n) - 1)
     return p
+
 
 ####################
 # Helper functions for rsa/elgamal
@@ -221,9 +222,10 @@ def str_to_int(m):
     s = 0
     b = 1
     for i in range(len(m)):
-        s = s + ord(m[i])*b
+        s = s + ord(m[i]) * b
         b = b * 256
     return s
+
 
 # Helper function
 # convert int to str
@@ -232,10 +234,8 @@ def str_to_int(m):
 def int_to_str(c):
     s = ""
     q, r = divmod(c, 256)
-    s = s+str(chr(r))
+    s = s + str(chr(r))
     while q != 0:
         q, r = divmod(q, 256)
-        s = s+str(chr(r))
+        s = s + str(chr(r))
     return s
-
-
