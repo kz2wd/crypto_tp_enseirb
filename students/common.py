@@ -41,7 +41,17 @@ def inverse_modulaire(N, a):
 
 
 def expo_modulaire(e, b, n):
-    return 0
+    if (e==0):
+        return 1
+    ret,xcpt,mcpt=1,0,0
+    for i in range (e):
+        ret*=b
+        xcpt+=1
+        ret=ret%n
+        mcpt+=1
+    print("le nombre de multiplication est",xcpt)
+    print("le nombre de modulo est",mcpt)
+    return ret
 
 ####################
 # Q4
@@ -61,8 +71,17 @@ def expo_modulaire_fast(e, b, n):
     # utile pour iterer sur chaque element de e
     # for x in range(len(bin_e)):
     #   int(bin_e[x])
-
-    return 0
+    ret,xcpt=1,0
+    bin_e = bin(e)[2:]
+    print(bin_e)
+    for i in range(len(bin_e)):
+            if (int(bin_e[i]) == 1):
+                ret*=expo_modulaire(2**(int(bin_e[i])*i), b, n)
+                ret=ret%n
+                print(ret)
+                xcpt +=1
+    print("le nombre de multiplication est",xcpt)
+    return ret
 
 ####################
 # Q5
@@ -88,6 +107,10 @@ def crible_eras(n):
 def test_fermat(n, t):
     # random number generator between a and b
     # x = random.randint(a,b)
+    for i in range(t):
+        x=random.randint(1,n)
+        if (expo_modulaire_fast(n-1, x, n) != 1):
+            return False
     return True
 
 ####################
@@ -101,7 +124,12 @@ def test_fermat(n, t):
 
 
 def find_ru(n):
-    return 0
+    r,u=0,0
+    while (n%2 == 0):
+        r+=1
+        n=n//2
+    u=n
+    return r,u
 
 ####################
 # Q8
@@ -115,7 +143,13 @@ def find_ru(n):
 
 def temoin_rabin(a, n):
     # utilisez expo_modulaire_fast !
-    return 0
+    r,u=find_ru(n)
+    if (expo_modulaire_fast(u,a,n) == 1):
+        return False
+    for i in range(r):
+        if (expo_modulaire_fast(u*2**i,a,n) == n-1):
+            return False
+    return True
 
 
 # n entier a tester, t nombre de tests
