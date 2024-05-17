@@ -16,14 +16,14 @@ if __name__ == "__main__":
     random.seed(0)
     e, d, n = rsa.gen_rsa(512)
     m = "ceci est le message de la question"
-    c = rsa.enc_rsa(m, e, n)
+    c = rsa.RSAcipher(e, n, m)
     print(e)
     print(d)
     print(n)
 
     print("Public channel [", c, "]")
 
-    decrypted = rsa.dec_rsa(c, d, n)
+    decrypted = rsa.RSAdecipher(d, n, c)
     print("Private channel [", decrypted, "]")
 
 

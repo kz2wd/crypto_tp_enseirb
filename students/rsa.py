@@ -37,9 +37,7 @@ def gen_rsa(n):
 
 
 def enc_rsa(m, e, N):
-    m = str_to_int(m)
-    c = expo_modulaire_fast(e, m, N)
-    return c
+    return expo_modulaire_fast(e, m, N)
 
 # d exponent
 # N modulo
@@ -49,8 +47,8 @@ def enc_rsa(m, e, N):
 
 
 def dec_rsa(c, d, N):
-    m = expo_modulaire_fast(d, c, N)
-    return int_to_str(m)
+    return expo_modulaire_fast(d, c, N)
+
 
 ####################
 # Q11
@@ -63,7 +61,7 @@ def dec_rsa(c, d, N):
 
 
 def RSAcipher(e, N, m):
-    return 0
+    return enc_rsa(str_to_int(m), e, N)
     # utilisez str_to_int
 
 # d exponent
@@ -73,7 +71,7 @@ def RSAcipher(e, N, m):
 
 
 def RSAdecipher(d, N, c):
-    return 0
+    return int_to_str(dec_rsa(c, d, N))
     # utilisez int_to_str
 
 
