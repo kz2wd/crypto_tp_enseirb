@@ -12,22 +12,17 @@ from common import *
 # output: e,d,N
 
 def gen_rsa(n):
+    p = gen_prime(n, True)
+    q = gen_prime(n, True)
 
-    max_n = 2 ** n - 1
-    max_key = sqrt(max_n)
-    p = gen_prime(max_key)
-    q = gen_prime(max_key)
-    print(f"Got p, q : ({p}, {q})")
     n = p * q
 
     psy_n = (p - 1) * (q - 1)
 
     e = random.randint(1, psy_n)
-    while pgcd(e, psy_n) != 1:
+    while pgcd(psy_n, e) != 1:
         e = random.randint(1, psy_n)
-    print(f"Found correct e : {e}")
     d = inverse_modulaire(psy_n, e)
-    print(f"Found correct d : {d}")
     return e, d, n
 
 ####################
@@ -42,7 +37,9 @@ def gen_rsa(n):
 
 
 def enc_rsa(m, e, N):
-    return 0
+    m = str_to_int(m)
+    c = expo_modulaire_fast(e, m, N)
+    return c
 
 # d exponent
 # N modulo
@@ -52,7 +49,8 @@ def enc_rsa(m, e, N):
 
 
 def dec_rsa(c, d, N):
-    return 0
+    m = expo_modulaire_fast(d, c, N)
+    return int_to_str(m)
 
 ####################
 # Q11

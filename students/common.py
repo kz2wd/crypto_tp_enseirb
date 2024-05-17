@@ -1,6 +1,8 @@
 import random
 import sys
+from functools import lru_cache
 from math import sqrt
+import sympy
 
 
 ####################
@@ -185,6 +187,7 @@ def temoin_rabin(a, n):
 # n entier a tester, t nombre de tests
 # retourne True , si n est premier
 # retourne False , avec proba > 1-(1/4)**t, si n est compose
+
 def test_rabin(n, t):
     if (n % 2 == 0):
         return False
@@ -202,9 +205,13 @@ def test_rabin(n, t):
 # range de n: p = random.randint(pow(2,n-1),pow(2,n)-1)
 
 
-def gen_prime(n):
+def gen_prime(n, use_is_prime=False):
+    validator = lambda p: test_rabin(p, 100)
+    if use_is_prime:
+        validator = sympy.isprime
+
     p = random.randint(pow(2, n - 1), pow(2, n) - 1)
-    while (test_rabin(p, 100) == False):
+    while not validator(p):
         p = random.randint(pow(2, n - 1), pow(2, n) - 1)
     return p
 
