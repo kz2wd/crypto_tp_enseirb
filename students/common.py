@@ -79,17 +79,23 @@ def expo_modulaire_fast(e, b, n):
     # utile pour iterer sur chaque element de e
     # for x in range(len(bin_e)):
     #   int(bin_e[x])
-    ret,xcpt=1,0
+    if (e == 0):
+        return 1
+    b_or=b
+    xcpt,mcpt=0,0
     bin_e = bin(e)[2:]
-    print(bin_e)
     for i in range(len(bin_e)):
-            if (int(bin_e[i]) == 1):
-                ret*=expo_modulaire(2**(int(bin_e[i])*i), b, n)
-                ret=ret%n
-                print(ret)
-                xcpt +=1
+        if (int(bin_e[i]) == 0):
+            b=expo_modulaire(2,b,n)
+        else:
+            b=b*b_or
+            b=b%n
+            xcpt+=1
+            mcpt+=1
+            
     print("le nombre de multiplication est",xcpt)
-    return ret
+    print("le nombre de multiplication est",mcpt)
+    return b
 
 ####################
 # Q5
@@ -134,6 +140,7 @@ def test_fermat(n, t):
     for i in range(t):
         x=random.randint(1,n)
         if (expo_modulaire_fast(n-1, x, n) != 1):
+            print(x,expo_modulaire_fast(n-1, x, n))
             return False
     return True
 
@@ -148,7 +155,7 @@ def test_fermat(n, t):
 
 
 def find_ru(n):
-    n-=1
+    #n-=1
     r,u=0,0
     while (n%2 == 0):
         r+=1
@@ -198,7 +205,7 @@ def test_rabin(n, t):
 
 def gen_prime(n):
     p = random.randint(pow(2,n-1),pow(2,n)-1)
-    while (test_rabin(p, 20) == False):
+    while (test_rabin(p, 10000) == False):
         p = random.randint(pow(2,n-1),pow(2,n)-1)
     return p
 
