@@ -13,7 +13,9 @@ from common import *
 
 
 def gen_elgamal_pg(n):
-    return 1
+    p=gen_prime(n)
+    g=3
+    return p,g
 
 ####################
 # Q15
@@ -26,7 +28,9 @@ def gen_elgamal_pg(n):
 
 
 def gen_elgamal_sk_pk(p, g):
-    return 0
+    sk=random.randint(3,p-1)
+    pk=expo_modulaire_fast(sk,g,p)
+    return sk,pk
 
 ####################
 # Q15 - bis
@@ -39,7 +43,9 @@ def gen_elgamal_sk_pk(p, g):
 
 
 def gen_elgamal_sk_Ephemeral(p, g):
-    return 0
+    sk=random.randint(3,p-1)
+    ke=expo_modulaire_fast(sk,g,p)
+    return sk,ke
 
 ####################
 # Q16
@@ -51,7 +57,7 @@ def gen_elgamal_sk_Ephemeral(p, g):
 
 
 def caluclate_secret_alice(pk_b, sk, p):
-    return 0
+    return expo_modulaire_fast(sk,pk_b,p)
 
 # execute par bob
 # retourne le secret partage par Alice et Bob
@@ -59,7 +65,7 @@ def caluclate_secret_alice(pk_b, sk, p):
 
 
 def caluclate_secret_bob(ke, sk_b, p):
-    return 0
+    return expo_modulaire_fast(sk_b,ke,p)
 
 ####################
 # Q17
@@ -73,6 +79,8 @@ def caluclate_secret_bob(ke, sk_b, p):
 def enc_secret(m, secret, p):
     # indice transformez le message (et le secret) en binaire:
     # bin_m = bin(str_to_int(m))[2:]
+    bin_m = bin(str_to_int(m))[2:]
+    
     return 0
 
 # dechiffrement du message c avec le secret
