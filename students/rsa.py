@@ -84,7 +84,7 @@ def RSAdecipher(d, N, c):
 # m message sous forme de texte
 # output: sig
 def RSAsignature(d, N, m):
-    return 0
+    return enc_rsa(str_to_int(m), d, N)
 
 # e exponent
 # N modulo
@@ -95,4 +95,4 @@ def RSAsignature(d, N, m):
 
 
 def RSAverification(e, N, m, sig):
-    return 0
+    return dec_rsa(sig, e, N) == str_to_int(m)

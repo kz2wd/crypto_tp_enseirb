@@ -31,13 +31,17 @@ def main():
 
     print("Encrypted message :", c)  # 17558098987687777730838231528469764810612383819913794112229608050395553274100088213814685828555374391171475841869269723260268133614959680598248186031964749391244802273383500796851188584441734653234049048601707034273402822695108573023257641219848937968322010477718972651291997338760261064531726220624745484963
 
-
     ####################
     # Q13
     ####################
 
     # signez et verifiez le message m
     # utilisez la meme signature sur un autre message et montrez que la signature est invalide
+
+    sig = RSAsignature(d, n, m)
+
+    assert RSAverification(e, n, m, sig)
+    assert not RSAverification(e, n, "Incorrect message", sig)
 
     #########################################################################################################################
     # ELGAMAL                                                                                                             #
