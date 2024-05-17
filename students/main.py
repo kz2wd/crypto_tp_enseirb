@@ -55,6 +55,26 @@ def main():
     m1 = "test1"
     m2 = "test2"
 
+    #bob ou alice
+    p,g=gen_elgamal_pg(20)
+    #bob
+    bob_sk,bob_pk=gen_elgamal_sk_Ephemeral(p, g)
+    #alice
+    al_sk,al_pk=gen_elgamal_sk_Ephemeral(p, g)
+    #alice
+    al_secret=caluclate_secret_alice(bob_pk, al_sk, p)
+    #bob
+    bob_secret=caluclate_secret_bob(al_pk, bob_sk, p)
+    #alice
+    c1=enc_secret(m1, al_secret, p)
+    #alice
+    c2=enc_secret(m2, al_secret, p)
+    #bob
+    mr1=dec_secret(c1,bob_secret,p)
+    #bob
+    mr2=dec_secret(c2,bob_secret,p)
+    print(mr1,mr2)
+
     #########################################################################################################################
     # Attacks                                                                                                             #
     #########################################################################################################################
