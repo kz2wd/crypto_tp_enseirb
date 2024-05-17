@@ -135,9 +135,8 @@ def test_fermat(n, t):
     # random number generator between a and b
     # x = random.randint(a,b)
     for i in range(t):
-        x = random.randint(1, n)
+        x = random.randint(1, n-1)
         if (expo_modulaire_fast(n - 1, x, n) != 1):
-            print(x, expo_modulaire_fast(n - 1, x, n))
             return False
     return True
 
@@ -174,11 +173,11 @@ def find_ru(n):
 
 def temoin_rabin(a, n):
     # utilisez expo_modulaire_fast !
-    r, u = find_ru(n)
+    r, u = find_ru(n-1)
     if (expo_modulaire_fast(u, a, n) == 1):
         return False
     for i in range(r):
-        if (expo_modulaire_fast(u * 2 ** i, a, n) == n - 1):
+        if (expo_modulaire(u * (2 ** i), a, n) == n - 1):
             return False
     return True
 
@@ -190,7 +189,7 @@ def test_rabin(n, t):
     if (n % 2 == 0):
         return False
     for i in range(t):
-        a = random.randint(1, n - 1)
+        a = random.randint(1, n-1)
         if (pgcd(n, a) != 1 or temoin_rabin(a, n) == True):
             return False
     return True
@@ -205,7 +204,7 @@ def test_rabin(n, t):
 
 def gen_prime(n):
     p = random.randint(pow(2, n - 1), pow(2, n) - 1)
-    while (test_rabin(p, 10000) == False):
+    while (test_rabin(p, 100) == False):
         p = random.randint(pow(2, n - 1), pow(2, n) - 1)
     return p
 
