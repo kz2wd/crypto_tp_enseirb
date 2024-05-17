@@ -12,8 +12,8 @@ from math import sqrt
 def pgcd(a, b):
     assert (a > b)
     while b != 0:
-
-    return 0
+        a, b = b, a % b
+    return a
 
 # algo euclide etendu
 # retourne d,u,v avec pgcd(a,b)=d=ua+vb
@@ -162,3 +162,5 @@ def int_to_str(c):
         q, r = divmod(q, 256)
         s = s+str(chr(r))
     return s
+
+
