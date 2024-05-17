@@ -2,7 +2,7 @@
 
 from elgamal import *
 
-if __name__ == "__main__":
+def test_el_gamal():
     #bob ou alice
     p,g=gen_elgamal_pg(20)
     #bob
