@@ -20,7 +20,12 @@ def pgcd(a, b):
 
 
 def euclide_ext(a, b):
-    return 0
+    if 0 == a:
+        return b, 0, 1
+    gcd, _u, v = euclide_ext(b % a, a)
+    u = v - (b // a) * _u
+    v = _u
+    return gcd, u, v
 
 ####################
 # Q2
